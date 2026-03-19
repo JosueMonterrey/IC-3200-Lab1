@@ -26,5 +26,8 @@ do you know who the winner is?
 using namespace std;
 
 int main() {
+    int N;
+    cin >> N;
+    cout << ((N & 1) ? "Alice" : "Bob") << endl;
     return 0;
 }
