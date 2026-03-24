@@ -1,5 +1,7 @@
 /*
 
+https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1102
+
 One day, an ant called Alice came to an M*M chessboard.
 She wanted to go around all the grids.
 So she began to walk along the chessboard according to this way: 
@@ -27,7 +29,7 @@ Your task is to decide where she was at a given time
 
 # Input
     Input file will contain several lines, and each line contains a number
-    N (1 ≤ N ≤ 2 ∗ 109),which stands for the time.
+    N (1 ≤ N ≤ 2∗10^9),which stands for the time.
     The file will be ended with a line that contains a number ‘0’.
 
 # Output
@@ -37,9 +39,65 @@ Your task is to decide where she was at a given time
 */
 
 #include <iostream>
+#define ll long long int
+#define pii pair<int, int>
 
 using namespace std;
 
+double Sqrt(int n) {
+    double inf = 1, sup = n;
+    
+    while (sup - inf > 0.001){
+        const double m = (inf + sup) / 2;
+
+        if (m * m < n)
+            inf = m;
+        else
+            sup = m;
+    }
+
+    return sup;
+}
+
+pii Calcular(int n) {
+    const ll y = Sqrt(n);
+    const ll x = y + 1;
+    
+    const int m = ((x * x + y * y) / 2) + 1;
+    
+    if (n == m)
+        return pii(x, x);
+    
+    int r1, r2;
+        
+    if (n == y * y) {
+        r1 = y;
+        r2 = 1;
+    }
+    else {
+        r1 = (n < m) ? x : x - (n - m);
+        r2 = (n > m) ? x : x - (m - n);
+    }
+    
+    if (y & 1) {
+        r1 ^= r2;
+        r2 ^= r1;
+        r1 ^= r2;
+    }
+
+    return pii(r1, r2);
+}
+
 int main() {
-    return 0;
+    int N;
+
+    while (true) {
+        cin >> N;
+
+        if (!N) break;
+
+        pii result = Calcular(N);
+
+        cout << result.first << " " << result.second << endl;
+    }
 }
